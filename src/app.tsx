@@ -25,7 +25,7 @@ function App() {
       <PageHeader />
       <Separator type="horizontal" />
       <main style={{display: 'flex', flex: 1, gap: '20px'}}>
-        <section>
+        <section style={{ marginTop: '20px' }}>
           <aside>
             <RightSection onAddNewItem={handleAddNewItem}/>
             <Separator type="horizontal"/>
@@ -43,10 +43,11 @@ function App() {
             </nav>
 
           </aside>
-        </section>
 
+        </section>
         <Separator type="vertical"/>
-        <section style={{flex: 1}}>
+
+        <section style={{flex: 1, marginTop: '20px'}}>
           <div className="terminal-card">
             <header>Card Title</header>
             <div>
@@ -65,6 +66,7 @@ function App() {
           </div>
         </section>
       </main>
+      <Separator type="horizontal" />
       <footer style={{paddingTop: '12px', paddingBottom: '12px', textAlign: 'center'}}>© Old diary</footer>
     </div>
   )

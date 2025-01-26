@@ -36,7 +36,7 @@ export function RightSection({ onAddNewItem }: RightSectionProps) {
       <button className="btn btn-small" onClick={() => setActionType("create-folder")}>
         + section
       </button>
-      <button className="btn btn-default btn-small" onClick={() => setActionType("create-file")}>+ page</button>
+      <button className="btn btn-ghost btn-small" onClick={() => setActionType("create-file")}>+ page</button>
 
       <Modal isOpen={showActionModal} onClose={() => setActionType(null)}>
         <form onSubmit={handleAddNewItemSubmit}>
