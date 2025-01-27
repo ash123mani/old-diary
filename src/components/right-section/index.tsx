@@ -1,25 +1,25 @@
 import "rc-tooltip/assets/bootstrap.css";
 
-import { IFile } from "../../app.tsx";
 import { Separator } from "../../common/seprator/separator.tsx";
 
 import { DiaryList } from "./diary-list.tsx";
 import { DiaryCreateActions } from "./diary-create-actions.tsx";
+import { BaseFileSystemNode } from "./diary-item.type.ts";
 
 export type ActionType = "create-file" | "create-folder";
 
 interface RightSectionProps {
-  onCreateNewItem: (file: IFile) => void;
-  files: IFile[];
+  onCreateNewItem: (file: BaseFileSystemNode) => void;
+  fileSystem: BaseFileSystemNode[];
 }
 
-export function RightSection({ onCreateNewItem, files }: RightSectionProps) {
+export function RightSection({ onCreateNewItem, fileSystem }: RightSectionProps) {
   return (
     <section style={{ marginTop: "20px" }}>
       <aside>
-        <DiaryCreateActions onCreateNewItem={onCreateNewItem} />
+        <DiaryCreateActions onCreateNewItem={onCreateNewItem} parentId={null} />
         <Separator type="horizontal" style={{ margin: "20px 0" }} />
-        <DiaryList files={files} onCreateNewItem={onCreateNewItem} />
+        <DiaryList fileSystem={fileSystem} onCreateNewItem={onCreateNewItem} />
       </aside>
     </section>
   );

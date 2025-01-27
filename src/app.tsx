@@ -5,20 +5,30 @@ import { useState } from "react";
 import { LeftSection } from "./components/left-section";
 
 import "./app.css";
-
-export type ItemType = "file" | "folder";
-
-export interface IFile {
-  name: string;
-  id: string;
-  type: ItemType;
-}
+import { BaseFileSystemNode } from "./components/right-section/diary-item.type.ts";
 
 function App() {
-  const [allFiles, setAllFiles] = useState<IFile[]>([]);
+  const [fileSystem, setFileSystem] = useState<BaseFileSystemNode[]>([]);
 
-  function handleCreateNewItem(file: IFile) {
-    setAllFiles((allFiles) => [...allFiles, file]);
+  console.log("fileSystem", fileSystem);
+
+  function handleCreateNewItem(newItem: BaseFileSystemNode) {
+    // If no parentId id present with newItem then its on the root node
+    if (!newItem.parentId) {
+      setFileSystem([...fileSystem, newItem]);
+    } else {
+      const diaryItem = fileSystem.find((diaryItem) => {
+        if (diaryItem.id === newItem.parentId) {
+          return diaryItem;
+        }
+      });
+      if (diaryItem) {
+        diaryItem.children = [...diaryItem.children!, newItem];
+      }
+      setFileSystem(fileSystem);
+    }
+
+    // If parentId is present then iterate the fileSystem to the parent Item and attach the newItem to it
   }
 
   return (
@@ -26,7 +36,7 @@ function App() {
       <PageHeader />
       <Separator type="horizontal" />
       <main style={{ display: "flex", flex: 1, gap: "20px" }}>
-        <RightSection onCreateNewItem={handleCreateNewItem} files={allFiles} />
+        <RightSection onCreateNewItem={handleCreateNewItem} fileSystem={fileSystem} />
         <Separator type="vertical" />
         <LeftSection />
       </main>

@@ -1,29 +1,49 @@
 import { type ChangeEvent, type FormEvent, Fragment, useRef, useState } from "react";
+import { nanoid } from "nanoid";
 
 import { ActionType } from "./index.tsx";
 import { Modal } from "../../common/modal/modal.tsx";
-import { IFile } from "../../app.tsx";
+import { BaseFileSystemNode } from "./diary-item.type.ts";
 
 interface DiaryCreateActionProps {
-  onCreateNewItem: (file: IFile) => void;
+  onCreateNewItem: (file: BaseFileSystemNode) => void;
+  parentId: string | null;
 }
 
-export function DiaryCreateActions({ onCreateNewItem }: DiaryCreateActionProps) {
+export function DiaryCreateActions({ onCreateNewItem, parentId }: DiaryCreateActionProps) {
   const [actionType, setActionType] = useState<ActionType | null>(null);
-  const fileNameRef = useRef<IFile | null>(null);
+  const fileNameRef = useRef<string | null>(null);
 
   function handleFileNameChange(e: ChangeEvent<HTMLInputElement>) {
-    const fileName = e.target.value;
-    fileNameRef.current = {
-      name: fileName,
-      id: fileName,
-      type: actionType === "create-file" ? "file" : "folder",
-    };
+    fileNameRef.current = e.target.value;
   }
 
   function handleAddNewItemSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    onCreateNewItem(fileNameRef.current!);
+    let item: BaseFileSystemNode | null = null;
+    if (actionType === "create-file") {
+      item = {
+        name: fileNameRef.current!,
+        id: nanoid(),
+        type: "file",
+        parentId: parentId,
+        metadata: {
+          createdAt: Date.now(),
+        },
+      };
+    } else {
+      item = {
+        name: fileNameRef.current!,
+        id: nanoid(),
+        type: "folder",
+        parentId: parentId,
+        metadata: {
+          createdAt: Date.now(),
+        },
+        children: [],
+      };
+    }
+    onCreateNewItem(item);
     fileNameRef.current = null;
     setActionType(null);
   }
