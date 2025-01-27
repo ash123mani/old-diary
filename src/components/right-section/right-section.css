@@ -1,0 +1,8 @@
+.old-diary-tooltip-body {
+    background-color: var(--secondary-color);
+}
+
+.rc-tooltip-arrow{
+    border-right-color: var(--secondary-color) !important; /* Match arrow with background */
+    left: 4px !important;
+}

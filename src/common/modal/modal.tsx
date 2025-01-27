@@ -1,7 +1,7 @@
-import {createPortal} from "react-dom";
-import {ReactNode} from "react";
+import { createPortal } from "react-dom";
+import { ReactNode } from "react";
 
-import './modal.css'
+import "./modal.css";
 
 interface ModalProps {
   isOpen: boolean;
@@ -9,7 +9,7 @@ interface ModalProps {
   children: ReactNode;
 }
 
-export const Modal = ({ isOpen, onClose, children }:ModalProps) => {
+export const Modal = ({ isOpen, onClose, children }: ModalProps) => {
   if (!isOpen) return null;
 
   return createPortal(
@@ -24,6 +24,6 @@ export const Modal = ({ isOpen, onClose, children }:ModalProps) => {
         {children}
       </div>
     </div>,
-    document.body // Render modal outside the app component
+    document.body, // Render modal outside the app component
   );
 };
