@@ -20,6 +20,7 @@
     width: 90%;
     /*text-align: center;*/
     position: relative;
+    background: var(--secondary-color);
 }
 
 /* Close Button */
@@ -29,7 +30,7 @@
     right: 10px;
     background: none;
     border: none;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     cursor: pointer;
     color: var(--background-color);
 }

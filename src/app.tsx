@@ -4,6 +4,8 @@ import { PageHeader} from "./components/page-header/page-header.tsx";
 import { Separator } from "./common/seprator/separator.tsx";
 import {RightSection} from "./components/right-section";
 import {useState} from "react";
+import fileClosed from './assets/file-closed.svg';
+import folderClosed from './assets/folder-closed.svg';
 
 export type ItemType = "file" | "folder";
 
@@ -30,13 +32,15 @@ function App() {
             <RightSection onAddNewItem={handleAddNewItem}/>
             <Separator type="horizontal"/>
             <nav>
-              <ul>
+              <ul style={{gap: '8px'}}>
                 {allFiles.map((file: IFile) => {
                   const isFile = file.type === "file";
+                  const icon = isFile ? fileClosed : folderClosed;
                   return (
-                    <li key={file.id} style={{
-                      fontWeight: isFile ? "normal" : "bold"
-                    }}><a href={`#${file.id}`}>{file.name}</a></li>
+                    <li key={file.id} style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px'}}>
+                        <img width="24" height="24" src={icon} alt={file.name}/>
+                        <span>{file.name}</span>
+                    </li>
                   )
                 })}
               </ul>
