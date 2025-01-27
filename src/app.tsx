@@ -1,10 +1,10 @@
-import { PageHeader} from "./components/page-header/page-header.tsx";
+import { PageHeader } from "./components/page-header/page-header.tsx";
 import { Separator } from "./common/seprator/separator.tsx";
-import {RightSection} from "./components/right-section";
-import {useState} from "react";
-import {LeftSection} from "./components/left-section";
+import { RightSection } from "./components/right-section";
+import { useState } from "react";
+import { LeftSection } from "./components/left-section";
 
-import './app.css';
+import "./app.css";
 
 export type ItemType = "file" | "folder";
 
@@ -17,7 +17,7 @@ export interface IFile {
 function App() {
   const [allFiles, setAllFiles] = useState<IFile[]>([]);
 
-  function handleAddNewItem(file: IFile) {
+  function handleCreateNewItem(file: IFile) {
     setAllFiles((allFiles) => [...allFiles, file]);
   }
 
@@ -25,15 +25,15 @@ function App() {
     <div className="app">
       <PageHeader />
       <Separator type="horizontal" />
-      <main style={{display: 'flex', flex: 1, gap: '20px'}}>
-        <RightSection onAddNewItem={handleAddNewItem} files={allFiles} />
+      <main style={{ display: "flex", flex: 1, gap: "20px" }}>
+        <RightSection onCreateNewItem={handleCreateNewItem} files={allFiles} />
         <Separator type="vertical" />
         <LeftSection />
       </main>
       <Separator type="horizontal" />
-      <footer style={{paddingTop: '12px', paddingBottom: '12px', textAlign: 'center'}}>© Old diary</footer>
+      <footer style={{ paddingTop: "12px", paddingBottom: "12px", textAlign: "center" }}>© Old diary</footer>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,16 +1,32 @@
+import Tooltip from "rc-tooltip";
+
 import { IFile } from "../../app.tsx";
 import fileClosed from "../../assets/file-closed.svg";
 import folderClosed from "../../assets/folder-closed.svg";
-import Tooltip from "rc-tooltip";
+
+import { DiaryCreateActions } from "./diary-create-actions.tsx";
+
+import "./diary-list.css";
 
 interface DiaryListProps {
   files: IFile[];
+  onCreateNewItem: (file: IFile) => void;
 }
 
-export function DiaryList({ files }: DiaryListProps) {
+export function DiaryList({ files, onCreateNewItem }: DiaryListProps) {
+  const overlay = () => {
+    return (
+      <div className="old-diary-tooltip-content">
+        <div>
+          <DiaryCreateActions onCreateNewItem={onCreateNewItem} />
+        </div>
+      </div>
+    );
+  };
+
   return (
     <nav>
-      <ul style={{ gap: "8px" }}>
+      <ul className="diary-ul">
         {files.map((file: IFile) => {
           const isFile = file.type === "file";
           const icon = isFile ? fileClosed : folderClosed;
@@ -19,9 +35,9 @@ export function DiaryList({ files }: DiaryListProps) {
               placement="right"
               classNames={{ root: "old-diary-tooltip-root", body: "old-diary-tooltip-body" }}
               trigger={["click"]}
-              overlay={<span style={{ color: "var(--invert-font-color)" }}>tooltip</span>}
+              overlay={overlay}
             >
-              <li key={file.id} style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "8px" }}>
+              <li key={file.id} className="diary-li">
                 <img width="24" height="24" src={icon} alt={file.name} />
                 <span>{file.name}</span>
               </li>

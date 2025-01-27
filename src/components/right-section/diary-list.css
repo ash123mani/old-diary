@@ -1,0 +1,40 @@
+.diary-ul {
+    gap: 8px;
+}
+
+.diary-li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    cursor: pointer;
+}
+
+.diary-li:hover {
+    background-color: var(--code-bg-color);
+    padding-right: 4px;
+    padding-left: 4px;
+}
+
+/* Tooltip default style overrides */
+.old-diary-tooltip-root {
+    opacity: 1;
+}
+
+.old-diary-tooltip-body {
+    background-color: var(--background-color);
+    border: 1px solid var(--secondary-color);
+
+}
+
+.old-diary-tooltip-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.rc-tooltip-arrow {
+    border-right-color: var(--secondary-color) !important; /* Match arrow with background */
+    left: 4px !important;
+}

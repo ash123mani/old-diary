@@ -20,17 +20,18 @@
     width: 90%;
     /*text-align: center;*/
     position: relative;
-    background: var(--secondary-color);
+    background-color: var(--background-color);
+    border: 1px solid var(--secondary-color);
 }
 
 /* Close Button */
 .modal-close {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 4px;
+    right: 4px;
     background: none;
     border: none;
     font-size: 1.4rem;
     cursor: pointer;
-    color: var(--background-color);
+    color: var(--secondary-color);
 }
