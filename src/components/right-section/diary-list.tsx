@@ -37,7 +37,7 @@ export function DiaryList({ files, onCreateNewItem }: DiaryListProps) {
               trigger={["click"]}
               overlay={overlay}
             >
-              <li key={file.id} className="diary-li">
+              <li key={file.id} className="diary-li" role="button">
                 <img width="24" height="24" src={icon} alt={file.name} />
                 <span>{file.name}</span>
               </li>
