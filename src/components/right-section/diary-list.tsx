@@ -7,7 +7,7 @@ import { DiaryCreateActions } from "./diary-create-actions.tsx";
 
 import "./diary-list.css";
 import { BaseFileSystemNode } from "./diary-item.type.ts";
-import { useRef } from "react";
+import { ReactNode, useState } from "react";
 
 interface DiaryListProps {
   fileSystem: BaseFileSystemNode[];
@@ -15,41 +15,50 @@ interface DiaryListProps {
 }
 
 export function DiaryList({ fileSystem, onCreateNewItem }: DiaryListProps) {
-  const selectedParentIdRef = useRef<string | null>(null);
+  const [selectedParentId, setSelectedParentId] = useState<string | null>(null);
 
   function handleDiaryItemActionClick(parentId: string) {
-    selectedParentIdRef.current = parentId;
+    setSelectedParentId(parentId);
   }
+
+  const renderDiaryItem = (diaryItem: BaseFileSystemNode) => {
+    const isFile = diaryItem.type === "file";
+    const icon = isFile ? fileClosed : folderClosed;
+    return (
+      <Tooltip
+        placement="right"
+        classNames={{ root: "old-diary-tooltip-root", body: "old-diary-tooltip-body" }}
+        trigger={["click"]}
+        overlay={<DiaryItemActionsOverlay onCreateNewItem={onCreateNewItem} parentId={selectedParentId} />}
+      >
+        <li
+          key={diaryItem.id}
+          className="diary-li diary"
+          role="button"
+          id={diaryItem.id}
+          onClick={() => handleDiaryItemActionClick(diaryItem.id)}
+        >
+          <img width="24" height="24" src={icon} alt={diaryItem.name} />
+          <span>{diaryItem.name}</span>
+        </li>
+      </Tooltip>
+    );
+  };
+
+  const renderFileSystem = (fileSystem: BaseFileSystemNode[]): ReactNode | ReactNode[] => {
+    return fileSystem.map((diaryItem) => {
+      const tree = [];
+      tree.push(renderDiaryItem(diaryItem));
+      if (diaryItem.children?.length) {
+        tree.push(<div style={{ marginLeft: "8px" }}>{renderFileSystem(diaryItem.children)}</div>);
+      }
+      return tree;
+    });
+  };
 
   return (
     <nav>
-      <ul className="diary-ul">
-        {fileSystem.map((file: BaseFileSystemNode) => {
-          const isFile = file.type === "file";
-          const icon = isFile ? fileClosed : folderClosed;
-          return (
-            <Tooltip
-              placement="right"
-              classNames={{ root: "old-diary-tooltip-root", body: "old-diary-tooltip-body" }}
-              trigger={["click"]}
-              overlay={
-                <DiaryItemActionsOverlay onCreateNewItem={onCreateNewItem} parentId={selectedParentIdRef.current} />
-              }
-            >
-              <li
-                key={file.id}
-                className="diary-li diary"
-                role="button"
-                id={file.id}
-                onClick={() => handleDiaryItemActionClick(file.id)}
-              >
-                <img width="24" height="24" src={icon} alt={file.name} />
-                <span>{file.name}</span>
-              </li>
-            </Tooltip>
-          );
-        })}
-      </ul>
+      <ul className="diary-ul">{renderFileSystem(fileSystem)}</ul>
     </nav>
   );
 }

@@ -14,6 +14,8 @@ export function DiaryCreateActions({ onCreateNewItem, parentId }: DiaryCreateAct
   const [actionType, setActionType] = useState<ActionType | null>(null);
   const fileNameRef = useRef<string | null>(null);
 
+  console.log("Passed Parent Id", parentId);
+
   function handleFileNameChange(e: ChangeEvent<HTMLInputElement>) {
     fileNameRef.current = e.target.value;
   }

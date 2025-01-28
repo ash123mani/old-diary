@@ -13,22 +13,15 @@ function App() {
   console.log("fileSystem", fileSystem);
 
   function handleCreateNewItem(newItem: BaseFileSystemNode) {
-    // If no parentId id present with newItem then its on the root node
     if (!newItem.parentId) {
       setFileSystem([...fileSystem, newItem]);
     } else {
-      const diaryItem = fileSystem.find((diaryItem) => {
-        if (diaryItem.id === newItem.parentId) {
-          return diaryItem;
-        }
-      });
-      if (diaryItem) {
-        diaryItem.children = [...diaryItem.children!, newItem];
+      const parentItem = fileSystem.find((diaryItem) => diaryItem.id === newItem.parentId);
+      if (parentItem) {
+        parentItem.children = [...parentItem.children!, newItem];
+        setFileSystem([...fileSystem]);
       }
-      setFileSystem(fileSystem);
     }
-
-    // If parentId is present then iterate the fileSystem to the parent Item and attach the newItem to it
   }
 
   return (
