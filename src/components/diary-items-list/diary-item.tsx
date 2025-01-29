@@ -1,5 +1,5 @@
 import { BaseFileSystemNode } from "../right-section/diary-item.type.ts";
-import { useState } from "react";
+import { type ReactElement, useState } from "react";
 import fileClosed from "../../assets/file-closed.svg";
 import folderClosed from "../../assets/folder-closed.svg";
 import Tooltip from "rc-tooltip";
@@ -37,20 +37,29 @@ export function DiaryItem({
   const isFile = diaryItem.type === "file";
   const icon = isFile ? fileClosed : folderClosed;
   const selectedCls = selectedParentDiaryItemId === diaryItem.id ? "diary-li__selected" : "diary-li";
-  return (
-    <Tooltip
-      placement="right"
-      classNames={{ root: "old-diary-tooltip-root", body: "old-diary-tooltip-body" }}
-      trigger="click"
-      overlay={
-        <DiaryItemActionsOverlay
-          onCreateNewItemSubmit={handleCreateNewItemSubmit}
-          parentId={selectedParentDiaryItemId}
-          onCreateNewItemClick={handleCreateNewItemClick}
-        />
-      }
-      visible={diaryItem.id === selectedParentDiaryItemId && showTooltip}
-    >
+
+  function tooltip(children: ReactElement) {
+    return (
+      <Tooltip
+        placement="right"
+        classNames={{ root: "old-diary-tooltip-root", body: "old-diary-tooltip-body" }}
+        trigger="click"
+        overlay={
+          <DiaryItemActionsOverlay
+            onCreateNewItemSubmit={handleCreateNewItemSubmit}
+            parentId={selectedParentDiaryItemId}
+            onCreateNewItemClick={handleCreateNewItemClick}
+          />
+        }
+        visible={diaryItem.id === selectedParentDiaryItemId && showTooltip}
+      >
+        {children}
+      </Tooltip>
+    );
+  }
+
+  function diaryListItem(diaryItem: BaseFileSystemNode) {
+    return (
       <li
         key={diaryItem.id}
         className={`diary ${selectedCls}`}
@@ -61,6 +70,8 @@ export function DiaryItem({
         <img width="24" height="24" src={icon} alt={diaryItem.name} />
         <span>{diaryItem.name}</span>
       </li>
-    </Tooltip>
-  );
+    );
+  }
+
+  return isFile ? diaryListItem(diaryItem) : tooltip(diaryListItem(diaryItem));
 }
