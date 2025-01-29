@@ -9,17 +9,29 @@ import { BaseFileSystemNode } from "./diary-item.type.ts";
 export type ActionType = "create-file" | "create-folder";
 
 interface RightSectionProps {
-  onCreateNewItem: (file: BaseFileSystemNode) => void;
+  onCreateNewItemSubmit: (file: BaseFileSystemNode) => void;
+  onDiaryItemActionClick: (parentDiaryItemId: string) => void;
   fileSystem: BaseFileSystemNode[];
+  selectedParentDiaryItemId: string | null;
 }
 
-export function RightSection({ onCreateNewItem, fileSystem }: RightSectionProps) {
+export function RightSection({
+  onCreateNewItemSubmit,
+  onDiaryItemActionClick,
+  fileSystem,
+  selectedParentDiaryItemId,
+}: RightSectionProps) {
   return (
     <section style={{ marginTop: "20px" }}>
       <aside style={{ maxWidth: "240px", width: "240px" }}>
-        <DiaryCreateActions onCreateNewItem={onCreateNewItem} parentId={null} />
+        <DiaryCreateActions onCreateNewItemSubmit={onCreateNewItemSubmit} parentId={null} />
         <Separator type="horizontal" style={{ margin: "20px 0" }} />
-        <DiaryList fileSystem={fileSystem} onCreateNewItem={onCreateNewItem} />
+        <DiaryList
+          fileSystem={fileSystem}
+          onCreateNewItemSubmit={onCreateNewItemSubmit}
+          onDiaryItemActionClick={onDiaryItemActionClick}
+          selectedParentDiaryItemId={selectedParentDiaryItemId}
+        />
       </aside>
     </section>
   );

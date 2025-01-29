@@ -5,14 +5,26 @@ import { DiaryItem } from "./diary-item.tsx";
 
 interface DiaryListProps {
   fileSystem: BaseFileSystemNode[];
-  onCreateNewItem: (diaryItem: BaseFileSystemNode) => void;
+  onCreateNewItemSubmit: (diaryItem: BaseFileSystemNode) => void;
+  onDiaryItemActionClick: (parentDiaryItemId: string) => void;
+  selectedParentDiaryItemId: string | null;
 }
 
-export function DiaryList({ fileSystem, onCreateNewItem }: DiaryListProps) {
+export function DiaryList({
+  fileSystem,
+  onCreateNewItemSubmit,
+  onDiaryItemActionClick,
+  selectedParentDiaryItemId,
+}: DiaryListProps) {
   return (
     <nav>
       <ul className="diary-ul">
-        <FileSystem fileSystem={fileSystem} onCreateNewItem={onCreateNewItem} />
+        <FileSystem
+          fileSystem={fileSystem}
+          onCreateNewItemSubmit={onCreateNewItemSubmit}
+          onDiaryItemActionClick={onDiaryItemActionClick}
+          selectedParentDiaryItemId={selectedParentDiaryItemId}
+        />
       </ul>
     </nav>
   );
@@ -21,28 +33,41 @@ export function DiaryList({ fileSystem, onCreateNewItem }: DiaryListProps) {
 interface FileSystemProps {
   fileSystem: BaseFileSystemNode[];
   depth?: number;
-  onCreateNewItem: (diaryItem: BaseFileSystemNode) => void;
+  onCreateNewItemSubmit: (diaryItem: BaseFileSystemNode) => void;
+  onDiaryItemActionClick: (parentDiaryItemId: string) => void;
+  selectedParentDiaryItemId: string | null;
 }
 
-function FileSystem({ fileSystem, depth = 0, onCreateNewItem }: FileSystemProps): ReactNode | ReactNode[] {
+function FileSystem({
+  fileSystem,
+  depth = 0,
+  onCreateNewItemSubmit,
+  onDiaryItemActionClick,
+  selectedParentDiaryItemId,
+}: FileSystemProps): ReactNode | ReactNode[] {
   return fileSystem.map((diaryItem: BaseFileSystemNode) => {
     if (!diaryItem.parentId) depth = 0;
 
     const tree = [];
     tree.push(
-      <div>
-        <DiaryItem diaryItem={diaryItem} onCreateNewItem={onCreateNewItem} />
+      <div style={{ marginLeft: `${depth * 4}px` }}>
+        <DiaryItem
+          diaryItem={diaryItem}
+          onCreateNewItemSubmit={onCreateNewItemSubmit}
+          onDiaryItemActionClick={onDiaryItemActionClick}
+          selectedParentDiaryItemId={selectedParentDiaryItemId}
+        />
+        {!!diaryItem.children?.length && (
+          <FileSystem
+            fileSystem={diaryItem.children}
+            depth={depth + 1}
+            onCreateNewItemSubmit={onCreateNewItemSubmit}
+            onDiaryItemActionClick={onDiaryItemActionClick}
+            selectedParentDiaryItemId={selectedParentDiaryItemId}
+          />
+        )}
       </div>,
     );
-
-    if (diaryItem.children?.length) {
-      depth = depth + 1;
-      tree.push(
-        <div style={{ marginLeft: `${depth * 4}px` }}>
-          <FileSystem fileSystem={diaryItem.children} depth={depth} onCreateNewItem={onCreateNewItem} />
-        </div>,
-      );
-    }
 
     return tree;
   });

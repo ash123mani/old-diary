@@ -2,15 +2,24 @@ import { DiaryCreateActions } from "./diary-create-actions.tsx";
 import { BaseFileSystemNode } from "../right-section/diary-item.type.ts";
 
 interface DiaryItemActionsOverlayProps {
-  onCreateNewItem: (diaryItem: BaseFileSystemNode) => void;
+  onCreateNewItemSubmit: (diaryItem: BaseFileSystemNode) => void;
+  onCreateNewItemClick: () => void;
   parentId: string | null;
 }
 
-export function DiaryItemActionsOverlay({ onCreateNewItem, parentId }: DiaryItemActionsOverlayProps) {
+export function DiaryItemActionsOverlay({
+  onCreateNewItemSubmit,
+  onCreateNewItemClick,
+  parentId,
+}: DiaryItemActionsOverlayProps) {
   return (
     <div className="old-diary-tooltip-content">
       <div>
-        <DiaryCreateActions onCreateNewItem={onCreateNewItem} parentId={parentId} />
+        <DiaryCreateActions
+          onCreateNewItemSubmit={onCreateNewItemSubmit}
+          onCreateNewItemClick={onCreateNewItemClick}
+          parentId={parentId}
+        />
       </div>
     </div>
   );

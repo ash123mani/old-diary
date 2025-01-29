@@ -7,14 +7,31 @@ import { DiaryItemActionsOverlay } from "./diary-item-actions-overlay.tsx";
 
 interface DiaryItemProps {
   diaryItem: BaseFileSystemNode;
-  onCreateNewItem: (diaryItem: BaseFileSystemNode) => void;
+  onCreateNewItemSubmit: (diaryItem: BaseFileSystemNode) => void;
+  onDiaryItemActionClick: (parentDiaryItemId: string) => void;
+  selectedParentDiaryItemId: string | null;
 }
 
-export function DiaryItem({ diaryItem, onCreateNewItem }: DiaryItemProps) {
-  const [selectedParentId, setSelectedParentId] = useState<string | null>(null);
+export function DiaryItem({
+  diaryItem,
+  onCreateNewItemSubmit,
+  onDiaryItemActionClick,
+  selectedParentDiaryItemId,
+}: DiaryItemProps) {
+  const [showTooltip, setShowTooltip] = useState(false);
 
   function handleDiaryItemActionClick(parentId: string) {
-    setSelectedParentId(parentId);
+    onDiaryItemActionClick(parentId);
+    setShowTooltip(true);
+  }
+
+  function handleCreateNewItemClick() {
+    setShowTooltip(false);
+  }
+
+  function handleCreateNewItemSubmit(diaryItem: BaseFileSystemNode) {
+    onCreateNewItemSubmit(diaryItem);
+    onDiaryItemActionClick("");
   }
 
   const isFile = diaryItem.type === "file";
@@ -23,8 +40,15 @@ export function DiaryItem({ diaryItem, onCreateNewItem }: DiaryItemProps) {
     <Tooltip
       placement="right"
       classNames={{ root: "old-diary-tooltip-root", body: "old-diary-tooltip-body" }}
-      trigger={["click"]}
-      overlay={<DiaryItemActionsOverlay onCreateNewItem={onCreateNewItem} parentId={selectedParentId} />}
+      trigger="click"
+      overlay={
+        <DiaryItemActionsOverlay
+          onCreateNewItemSubmit={handleCreateNewItemSubmit}
+          parentId={selectedParentDiaryItemId}
+          onCreateNewItemClick={handleCreateNewItemClick}
+        />
+      }
+      visible={diaryItem.id === selectedParentDiaryItemId && showTooltip}
     >
       <li
         key={diaryItem.id}

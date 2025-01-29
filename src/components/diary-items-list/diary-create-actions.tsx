@@ -6,11 +6,12 @@ import { Modal } from "../../common/modal/modal.tsx";
 import { BaseFileSystemNode } from "../right-section/diary-item.type.ts";
 
 interface DiaryCreateActionProps {
-  onCreateNewItem: (file: BaseFileSystemNode) => void;
+  onCreateNewItemSubmit: (file: BaseFileSystemNode) => void;
+  onCreateNewItemClick?: () => void;
   parentId: string | null;
 }
 
-export function DiaryCreateActions({ onCreateNewItem, parentId }: DiaryCreateActionProps) {
+export function DiaryCreateActions({ onCreateNewItemSubmit, onCreateNewItemClick, parentId }: DiaryCreateActionProps) {
   const [actionType, setActionType] = useState<ActionType | null>(null);
   const fileNameRef = useRef<string | null>(null);
 
@@ -43,7 +44,7 @@ export function DiaryCreateActions({ onCreateNewItem, parentId }: DiaryCreateAct
         children: [],
       };
     }
-    onCreateNewItem(item);
+    onCreateNewItemSubmit(item);
     fileNameRef.current = null;
     setActionType(null);
   }
@@ -51,10 +52,22 @@ export function DiaryCreateActions({ onCreateNewItem, parentId }: DiaryCreateAct
   const showActionModal = !!actionType;
   return (
     <Fragment>
-      <button className="btn btn-small" onClick={() => setActionType("create-folder")}>
+      <button
+        className="btn btn-small"
+        onClick={() => {
+          onCreateNewItemClick?.();
+          setActionType("create-folder");
+        }}
+      >
         + section
       </button>
-      <button className="btn btn-ghost btn-small" onClick={() => setActionType("create-file")}>
+      <button
+        className="btn btn-ghost btn-small"
+        onClick={() => {
+          onCreateNewItemClick?.();
+          setActionType("create-file");
+        }}
+      >
         + page
       </button>
 

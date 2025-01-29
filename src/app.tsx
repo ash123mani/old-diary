@@ -9,6 +9,7 @@ import { BaseFileSystemNode } from "./components/right-section/diary-item.type.t
 
 function App() {
   const [fileSystem, setFileSystem] = useState<BaseFileSystemNode[]>([]);
+  const [selectedParentDiaryItemId, setSelectedParentDiaryItemId] = useState<string | null>(null);
 
   console.log("fileSystem", fileSystem);
   console.log("fatted-fileSystem", fileSystem[0]?.children?.flat());
@@ -32,7 +33,7 @@ function App() {
     return diaryItem;
   }
 
-  function handleCreateNewItem(newItem: BaseFileSystemNode) {
+  function handleCreateNewItemSubmit(newItem: BaseFileSystemNode) {
     if (!newItem.parentId) {
       setFileSystem([...fileSystem, newItem]);
     } else {
@@ -42,6 +43,11 @@ function App() {
         setFileSystem([...fileSystem]);
       }
     }
+    setSelectedParentDiaryItemId(null);
+  }
+
+  function handleDiaryItemActionClick(parentDiaryItemId: string) {
+    setSelectedParentDiaryItemId(parentDiaryItemId);
   }
 
   return (
@@ -49,7 +55,12 @@ function App() {
       <PageHeader />
       <Separator type="horizontal" />
       <main style={{ display: "flex", flex: 1, gap: "20px" }}>
-        <RightSection onCreateNewItem={handleCreateNewItem} fileSystem={fileSystem} />
+        <RightSection
+          onCreateNewItemSubmit={handleCreateNewItemSubmit}
+          fileSystem={fileSystem}
+          onDiaryItemActionClick={handleDiaryItemActionClick}
+          selectedParentDiaryItemId={selectedParentDiaryItemId}
+        />
         <Separator type="vertical" />
         <LeftSection />
       </main>
