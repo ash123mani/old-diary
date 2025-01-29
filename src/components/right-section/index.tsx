@@ -2,8 +2,8 @@ import "rc-tooltip/assets/bootstrap.css";
 
 import { Separator } from "../../common/seprator/separator.tsx";
 
-import { DiaryList } from "./diary-list.tsx";
-import { DiaryCreateActions } from "./diary-create-actions.tsx";
+import { DiaryList } from "../diary-items-list/diary-list.tsx";
+import { DiaryCreateActions } from "../diary-items-list/diary-create-actions.tsx";
 import { BaseFileSystemNode } from "./diary-item.type.ts";
 
 export type ActionType = "create-file" | "create-folder";

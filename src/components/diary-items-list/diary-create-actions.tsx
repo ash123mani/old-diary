@@ -1,9 +1,9 @@
 import { type ChangeEvent, type FormEvent, Fragment, useRef, useState } from "react";
 import { nanoid } from "nanoid";
 
-import { ActionType } from "./index.tsx";
+import { ActionType } from "../right-section";
 import { Modal } from "../../common/modal/modal.tsx";
-import { BaseFileSystemNode } from "./diary-item.type.ts";
+import { BaseFileSystemNode } from "../right-section/diary-item.type.ts";
 
 interface DiaryCreateActionProps {
   onCreateNewItem: (file: BaseFileSystemNode) => void;
@@ -13,8 +13,6 @@ interface DiaryCreateActionProps {
 export function DiaryCreateActions({ onCreateNewItem, parentId }: DiaryCreateActionProps) {
   const [actionType, setActionType] = useState<ActionType | null>(null);
   const fileNameRef = useRef<string | null>(null);
-
-  console.log("Passed Parent Id", parentId);
 
   function handleFileNameChange(e: ChangeEvent<HTMLInputElement>) {
     fileNameRef.current = e.target.value;
