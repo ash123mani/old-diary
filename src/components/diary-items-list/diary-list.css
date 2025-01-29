@@ -11,6 +11,8 @@
     padding-bottom: 4px;
     cursor: pointer;
     padding-left: unset;
+
+    overflow-x: auto;
 }
 
 .diary-li:hover {

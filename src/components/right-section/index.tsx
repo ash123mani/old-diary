@@ -16,7 +16,7 @@ interface RightSectionProps {
 export function RightSection({ onCreateNewItem, fileSystem }: RightSectionProps) {
   return (
     <section style={{ marginTop: "20px" }}>
-      <aside>
+      <aside style={{ maxWidth: "240px", width: "240px" }}>
         <DiaryCreateActions onCreateNewItem={onCreateNewItem} parentId={null} />
         <Separator type="horizontal" style={{ margin: "20px 0" }} />
         <DiaryList fileSystem={fileSystem} onCreateNewItem={onCreateNewItem} />
