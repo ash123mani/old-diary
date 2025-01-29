@@ -50,7 +50,7 @@ export function DiaryList({ fileSystem, onCreateNewItem }: DiaryListProps) {
       const tree = [];
       tree.push(renderDiaryItem(diaryItem));
       if (diaryItem.children?.length) {
-        tree.push(<div style={{ marginLeft: "8px" }}>{renderFileSystem(diaryItem.children)}</div>);
+        tree.push(<div style={{ marginLeft: "2px" }}>{renderFileSystem(diaryItem.children)}</div>);
       }
       return tree;
     });

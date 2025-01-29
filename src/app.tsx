@@ -11,14 +11,34 @@ function App() {
   const [fileSystem, setFileSystem] = useState<BaseFileSystemNode[]>([]);
 
   console.log("fileSystem", fileSystem);
+  console.log("fatted-fileSystem", fileSystem[0]?.children?.flat());
+
+  function findParentDiaryItem(
+    fileSystem: BaseFileSystemNode[],
+    newItem: BaseFileSystemNode,
+  ): BaseFileSystemNode | undefined {
+    let diaryItem: BaseFileSystemNode | undefined;
+    diaryItem = fileSystem.find((diaryItem) => diaryItem.id === newItem.parentId);
+
+    if (!diaryItem) {
+      for (let i = 0; i < fileSystem.length; i++) {
+        const parentChildren = fileSystem[i].children;
+        if (parentChildren?.length) {
+          diaryItem = findParentDiaryItem(parentChildren, newItem);
+        }
+      }
+    }
+
+    return diaryItem;
+  }
 
   function handleCreateNewItem(newItem: BaseFileSystemNode) {
     if (!newItem.parentId) {
       setFileSystem([...fileSystem, newItem]);
     } else {
-      const parentItem = fileSystem.find((diaryItem) => diaryItem.id === newItem.parentId);
-      if (parentItem) {
-        parentItem.children = [...parentItem.children!, newItem];
+      const diaryItem: BaseFileSystemNode | undefined = findParentDiaryItem(fileSystem, newItem);
+      if (diaryItem) {
+        diaryItem.children = [...diaryItem.children!, newItem];
         setFileSystem([...fileSystem]);
       }
     }
