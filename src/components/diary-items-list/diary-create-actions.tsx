@@ -22,28 +22,16 @@ export function DiaryCreateActions({ onCreateNewItemSubmit, onCreateNewItemClick
   function handleAddNewItemSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     let item: BaseFileSystemNode | null = null;
-    if (actionType === "create-file") {
-      item = {
-        name: fileNameRef.current!,
-        id: nanoid(),
-        type: "file",
-        parentId: parentId,
-        metadata: {
-          createdAt: Date.now(),
-        },
-      };
-    } else {
-      item = {
-        name: fileNameRef.current!,
-        id: nanoid(),
-        type: "folder",
-        parentId: parentId,
-        metadata: {
-          createdAt: Date.now(),
-        },
-        children: [],
-      };
-    }
+    item = {
+      name: fileNameRef.current!,
+      id: nanoid(),
+      type: actionType === "create-file" ? "file" : "folder",
+      parentId: parentId,
+      metadata: {
+        createdAt: Date.now(),
+      },
+      children: [],
+    };
     onCreateNewItemSubmit(item);
     fileNameRef.current = null;
     setActionType(null);

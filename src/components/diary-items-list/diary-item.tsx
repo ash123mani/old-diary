@@ -36,6 +36,7 @@ export function DiaryItem({
 
   const isFile = diaryItem.type === "file";
   const icon = isFile ? fileClosed : folderClosed;
+  const selectedCls = selectedParentDiaryItemId === diaryItem.id ? "diary-li__selected" : "diary-li";
   return (
     <Tooltip
       placement="right"
@@ -52,7 +53,7 @@ export function DiaryItem({
     >
       <li
         key={diaryItem.id}
-        className="diary-li diary"
+        className={`diary ${selectedCls}`}
         role="button"
         id={diaryItem.id}
         onClick={() => handleDiaryItemActionClick(diaryItem.id)}

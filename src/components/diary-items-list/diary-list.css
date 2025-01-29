@@ -2,7 +2,7 @@
     gap: 8px;
 }
 
-.diary-li {
+.diary-li, .diary-li__selected {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -15,7 +15,7 @@
     overflow-x: auto;
 }
 
-.diary-li:hover {
+.diary-li:hover, .diary-li__selected {
     background-color: var(--code-bg-color);
     padding-right: 4px;
     padding-left: 4px;

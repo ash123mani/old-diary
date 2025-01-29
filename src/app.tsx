@@ -11,28 +11,6 @@ function App() {
   const [fileSystem, setFileSystem] = useState<BaseFileSystemNode[]>([]);
   const [selectedParentDiaryItemId, setSelectedParentDiaryItemId] = useState<string | null>(null);
 
-  console.log("fileSystem", fileSystem);
-  console.log("fatted-fileSystem", fileSystem[0]?.children?.flat());
-
-  function findParentDiaryItem(
-    fileSystem: BaseFileSystemNode[],
-    newItem: BaseFileSystemNode,
-  ): BaseFileSystemNode | undefined {
-    let diaryItem: BaseFileSystemNode | undefined;
-    diaryItem = fileSystem.find((diaryItem) => diaryItem.id === newItem.parentId);
-
-    if (!diaryItem) {
-      for (let i = 0; i < fileSystem.length; i++) {
-        const parentChildren = fileSystem[i].children;
-        if (parentChildren?.length) {
-          diaryItem = findParentDiaryItem(parentChildren, newItem);
-        }
-      }
-    }
-
-    return diaryItem;
-  }
-
   function handleCreateNewItemSubmit(newItem: BaseFileSystemNode) {
     if (!newItem.parentId) {
       setFileSystem([...fileSystem, newItem]);
@@ -68,6 +46,25 @@ function App() {
       <footer style={{ paddingTop: "12px", paddingBottom: "12px", textAlign: "center" }}>© Old diary</footer>
     </div>
   );
+}
+
+function findParentDiaryItem(
+  fileSystem: BaseFileSystemNode[],
+  newItem: BaseFileSystemNode,
+): BaseFileSystemNode | undefined {
+  let diaryItem: BaseFileSystemNode | undefined;
+  diaryItem = fileSystem.find((diaryItem) => diaryItem.id === newItem.parentId);
+
+  if (!diaryItem) {
+    for (let i = 0; i < fileSystem.length; i++) {
+      const parentChildren = fileSystem[i].children;
+      if (parentChildren?.length) {
+        diaryItem = findParentDiaryItem(parentChildren, newItem);
+      }
+    }
+  }
+
+  return diaryItem;
 }
 
 export default App;
