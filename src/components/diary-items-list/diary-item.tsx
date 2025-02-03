@@ -9,6 +9,7 @@ interface DiaryItemProps {
   diaryItem: BaseFileSystemNode;
   onCreateNewItemSubmit: (diaryItem: BaseFileSystemNode) => void;
   onDiaryItemActionClick: (parentDiaryItemId: string) => void;
+  onDiaryItemExpand: (diaryItem: BaseFileSystemNode) => void;
   selectedParentDiaryItemId: string | null;
 }
 
@@ -17,6 +18,7 @@ export function DiaryItem({
   onCreateNewItemSubmit,
   onDiaryItemActionClick,
   selectedParentDiaryItemId,
+  onDiaryItemExpand,
 }: DiaryItemProps) {
   const [showTooltip, setShowTooltip] = useState(false);
 
@@ -41,7 +43,7 @@ export function DiaryItem({
   function tooltip(children: ReactElement) {
     return (
       <Tooltip
-        placement="right"
+        placement="bottomRight"
         classNames={{ root: "old-diary-tooltip-root", body: "old-diary-tooltip-body" }}
         trigger="click"
         overlay={
@@ -49,9 +51,11 @@ export function DiaryItem({
             onCreateNewItemSubmit={handleCreateNewItemSubmit}
             parentId={selectedParentDiaryItemId}
             onCreateNewItemClick={handleCreateNewItemClick}
+            onCloseDiaryItemActionClick={() => setShowTooltip(false)}
           />
         }
         visible={diaryItem.id === selectedParentDiaryItemId && showTooltip}
+        showArrow={false}
       >
         {children}
       </Tooltip>
@@ -65,7 +69,15 @@ export function DiaryItem({
         className={`diary ${selectedCls}`}
         role="button"
         id={diaryItem.id}
-        onClick={() => handleDiaryItemActionClick(diaryItem.id)}
+        onContextMenu={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          handleDiaryItemActionClick(diaryItem.id);
+        }}
+        onClick={(e) => {
+          e.stopPropagation();
+          onDiaryItemExpand(diaryItem);
+        }}
       >
         <img width="24" height="24" src={icon} alt={diaryItem.name} />
         <span>{diaryItem.name}</span>

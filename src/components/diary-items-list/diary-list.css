@@ -41,3 +41,14 @@
     border-right-color: var(--secondary-color) !important; /* Match arrow with background */
     left: 4px !important;
 }
+
+.tooltip-close-btn {
+    position: absolute;
+    top: 8px;
+    right: 4px;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    cursor: pointer;
+    color: var(--secondary-color);
+}

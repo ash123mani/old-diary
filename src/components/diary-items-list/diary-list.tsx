@@ -4,25 +4,28 @@ import { ReactNode } from "react";
 import { DiaryItem } from "./diary-item.tsx";
 
 interface DiaryListProps {
-  fileSystem: BaseFileSystemNode[];
+  diaryItems: BaseFileSystemNode[];
   onCreateNewItemSubmit: (diaryItem: BaseFileSystemNode) => void;
   onDiaryItemActionClick: (parentDiaryItemId: string) => void;
+  onDiaryItemExpand: (diaryItem: BaseFileSystemNode) => void;
   selectedParentDiaryItemId: string | null;
 }
 
 export function DiaryList({
-  fileSystem,
+  diaryItems,
   onCreateNewItemSubmit,
   onDiaryItemActionClick,
   selectedParentDiaryItemId,
+  onDiaryItemExpand,
 }: DiaryListProps) {
   return (
     <nav>
       <ul className="diary-ul">
         <FileSystem
-          fileSystem={fileSystem}
+          diaryItems={diaryItems}
           onCreateNewItemSubmit={onCreateNewItemSubmit}
           onDiaryItemActionClick={onDiaryItemActionClick}
+          onDiaryItemExpand={onDiaryItemExpand}
           selectedParentDiaryItemId={selectedParentDiaryItemId}
         />
       </ul>
@@ -31,21 +34,23 @@ export function DiaryList({
 }
 
 interface FileSystemProps {
-  fileSystem: BaseFileSystemNode[];
+  diaryItems: BaseFileSystemNode[];
   depth?: number;
   onCreateNewItemSubmit: (diaryItem: BaseFileSystemNode) => void;
   onDiaryItemActionClick: (parentDiaryItemId: string) => void;
+  onDiaryItemExpand: (diaryItem: BaseFileSystemNode) => void;
   selectedParentDiaryItemId: string | null;
 }
 
 function FileSystem({
-  fileSystem,
+  diaryItems,
   depth = 0,
   onCreateNewItemSubmit,
   onDiaryItemActionClick,
+  onDiaryItemExpand,
   selectedParentDiaryItemId,
 }: FileSystemProps): ReactNode | ReactNode[] {
-  return fileSystem.map((diaryItem: BaseFileSystemNode) => {
+  return diaryItems.map((diaryItem: BaseFileSystemNode) => {
     if (!diaryItem.parentId) depth = 0;
 
     const tree = [];
@@ -56,13 +61,15 @@ function FileSystem({
           onCreateNewItemSubmit={onCreateNewItemSubmit}
           onDiaryItemActionClick={onDiaryItemActionClick}
           selectedParentDiaryItemId={selectedParentDiaryItemId}
+          onDiaryItemExpand={onDiaryItemExpand}
         />
         {!!diaryItem.children?.length && (
           <FileSystem
-            fileSystem={diaryItem.children}
+            diaryItems={diaryItem.children}
             depth={depth + 1}
             onCreateNewItemSubmit={onCreateNewItemSubmit}
             onDiaryItemActionClick={onDiaryItemActionClick}
+            onDiaryItemExpand={onDiaryItemExpand}
             selectedParentDiaryItemId={selectedParentDiaryItemId}
           />
         )}

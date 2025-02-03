@@ -11,14 +11,16 @@ export type ActionType = "create-file" | "create-folder";
 interface RightSectionProps {
   onCreateNewItemSubmit: (file: BaseFileSystemNode) => void;
   onDiaryItemActionClick: (parentDiaryItemId: string) => void;
-  fileSystem: BaseFileSystemNode[];
+  onDiaryItemExpand: (diaryItem: BaseFileSystemNode) => void;
+  diaryItems: BaseFileSystemNode[];
   selectedParentDiaryItemId: string | null;
 }
 
 export function RightSection({
   onCreateNewItemSubmit,
   onDiaryItemActionClick,
-  fileSystem,
+  onDiaryItemExpand,
+  diaryItems,
   selectedParentDiaryItemId,
 }: RightSectionProps) {
   return (
@@ -27,10 +29,11 @@ export function RightSection({
         <DiaryCreateActions onCreateNewItemSubmit={onCreateNewItemSubmit} parentId={null} />
         <Separator type="horizontal" style={{ margin: "20px 0" }} />
         <DiaryList
-          fileSystem={fileSystem}
+          diaryItems={diaryItems}
           onCreateNewItemSubmit={onCreateNewItemSubmit}
           onDiaryItemActionClick={onDiaryItemActionClick}
           selectedParentDiaryItemId={selectedParentDiaryItemId}
+          onDiaryItemExpand={onDiaryItemExpand}
         />
       </aside>
     </section>

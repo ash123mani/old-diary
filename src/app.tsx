@@ -8,17 +8,18 @@ import "./app.css";
 import { BaseFileSystemNode } from "./components/right-section/diary-item.type.ts";
 
 function App() {
-  const [fileSystem, setFileSystem] = useState<BaseFileSystemNode[]>([]);
+  const [diaryItems, setDiaryItems] = useState<BaseFileSystemNode[]>([]);
   const [selectedParentDiaryItemId, setSelectedParentDiaryItemId] = useState<string | null>(null);
+  const [expandedDiaryItems, setExpandedDiaryItems] = useState<string[]>([]);
 
   function handleCreateNewItemSubmit(newItem: BaseFileSystemNode) {
     if (!newItem.parentId) {
-      setFileSystem([...fileSystem, newItem]);
+      setDiaryItems([...diaryItems, newItem]);
     } else {
-      const diaryItem: BaseFileSystemNode | undefined = findParentDiaryItem(fileSystem, newItem);
+      const diaryItem: BaseFileSystemNode | undefined = findParentDiaryItem(diaryItems, newItem);
       if (diaryItem) {
         diaryItem.children = [...diaryItem.children!, newItem];
-        setFileSystem([...fileSystem]);
+        setDiaryItems([...diaryItems]);
       }
     }
     setSelectedParentDiaryItemId(null);
@@ -28,6 +29,19 @@ function App() {
     setSelectedParentDiaryItemId(parentDiaryItemId);
   }
 
+  function handleDiaryItemExpand(diaryItem: BaseFileSystemNode) {
+    setExpandedDiaryItems((allExpandedItems) => {
+      const diaryItemIndex = allExpandedItems.indexOf(diaryItem.id);
+      if (diaryItemIndex !== -1) {
+        return allExpandedItems.toSpliced(diaryItemIndex, 1);
+      } else {
+        return [...allExpandedItems, diaryItem.id];
+      }
+    });
+  }
+
+  console.log("expandedDiaryItems", expandedDiaryItems);
+
   return (
     <div className="app">
       <PageHeader />
@@ -35,8 +49,9 @@ function App() {
       <main style={{ display: "flex", flex: 1, gap: "20px" }}>
         <RightSection
           onCreateNewItemSubmit={handleCreateNewItemSubmit}
-          fileSystem={fileSystem}
+          diaryItems={diaryItems}
           onDiaryItemActionClick={handleDiaryItemActionClick}
+          onDiaryItemExpand={handleDiaryItemExpand}
           selectedParentDiaryItemId={selectedParentDiaryItemId}
         />
         <Separator type="vertical" />
