@@ -68,7 +68,6 @@ export function DiaryItem({
         key={diaryItem.id}
         className={`diary ${selectedCls}`}
         role="button"
-        id={diaryItem.id}
         onContextMenu={(e) => {
           e.stopPropagation();
           e.preventDefault();

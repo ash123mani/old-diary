@@ -55,7 +55,7 @@ function FileSystem({
 
     const tree = [];
     tree.push(
-      <div style={{ marginLeft: `${depth * 4}px` }}>
+      <div style={{ marginLeft: `${depth * 4}px` }} id={diaryItem.id}>
         <DiaryItem
           diaryItem={diaryItem}
           onCreateNewItemSubmit={onCreateNewItemSubmit}
