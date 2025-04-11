@@ -1,5 +1,5 @@
 import "./diary-list.css";
-import { BaseFileSystemNode } from "../right-section/diary-item.type.ts";
+import { BaseFileSystemNode } from "./diary-item.type.ts";
 import { ReactNode } from "react";
 import { DiaryItem } from "./diary-item.tsx";
 

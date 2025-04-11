@@ -1,4 +1,4 @@
-export function LeftSection() {
+export function DiaryItemContent() {
   return (
     <section style={{ flex: 1, marginTop: "20px" }}>
       <div className="terminal-card">

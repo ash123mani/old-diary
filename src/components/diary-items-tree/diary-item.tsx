@@ -1,4 +1,4 @@
-import { BaseFileSystemNode } from "../right-section/diary-item.type.ts";
+import { BaseFileSystemNode } from "./diary-item.type.ts";
 import { type ReactElement, useState } from "react";
 import fileClosed from "../../assets/file-closed.svg";
 import folderClosed from "../../assets/folder-closed.svg";

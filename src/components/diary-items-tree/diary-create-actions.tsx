@@ -1,9 +1,9 @@
 import { type ChangeEvent, type FormEvent, Fragment, useRef, useState } from "react";
 import { nanoid } from "nanoid";
 
-import { ActionType } from "../right-section";
+import { ActionType } from "./index.tsx";
 import { Modal } from "../../common/modal/modal.tsx";
-import { BaseFileSystemNode } from "../right-section/diary-item.type.ts";
+import { BaseFileSystemNode } from "./diary-item.type.ts";
 
 interface DiaryCreateActionProps {
   onCreateNewItemSubmit: (file: BaseFileSystemNode) => void;

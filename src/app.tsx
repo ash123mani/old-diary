@@ -1,11 +1,11 @@
 import { PageHeader } from "./components/page-header/page-header.tsx";
 import { Separator } from "./common/seprator/separator.tsx";
-import { RightSection } from "./components/right-section";
+import { DiaryItemsTree } from "./components/diary-items-tree";
 import { useState } from "react";
-import { LeftSection } from "./components/left-section";
+import { DiaryItemContent } from "./components/diary-item-content";
 
 import "./app.css";
-import { BaseFileSystemNode } from "./components/right-section/diary-item.type.ts";
+import { BaseFileSystemNode } from "./components/diary-items-tree/diary-item.type.ts";
 
 function App() {
   const [diaryItems, setDiaryItems] = useState<BaseFileSystemNode[]>([]);
@@ -47,7 +47,7 @@ function App() {
       <PageHeader />
       <Separator type="horizontal" />
       <main style={{ display: "flex", flex: 1, gap: "20px" }}>
-        <RightSection
+        <DiaryItemsTree
           onCreateNewItemSubmit={handleCreateNewItemSubmit}
           diaryItems={diaryItems}
           onDiaryItemActionClick={handleDiaryItemActionClick}
@@ -55,7 +55,7 @@ function App() {
           selectedParentDiaryItemId={selectedParentDiaryItemId}
         />
         <Separator type="vertical" />
-        <LeftSection />
+        <DiaryItemContent />
       </main>
       <Separator type="horizontal" />
       <footer style={{ paddingTop: "12px", paddingBottom: "12px", textAlign: "center" }}>© Old diary</footer>

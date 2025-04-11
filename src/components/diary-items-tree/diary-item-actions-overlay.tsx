@@ -1,5 +1,5 @@
 import { DiaryCreateActions } from "./diary-create-actions.tsx";
-import { BaseFileSystemNode } from "../right-section/diary-item.type.ts";
+import { BaseFileSystemNode } from "./diary-item.type.ts";
 
 interface DiaryItemActionsOverlayProps {
   onCreateNewItemSubmit: (diaryItem: BaseFileSystemNode) => void;
